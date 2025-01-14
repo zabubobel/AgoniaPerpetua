@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
+ 
+        form {
+            display: inline-block;
+            text-align: left;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+ 
+        input, button {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+ 
+        button {
+            background-color: #1456a1;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+        }
+ 
+        button:hover {
+            background-color: #0d4c91;
+        }
+</style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+</head>
+<body>
+<h1>Contact Us</h1>
+<form id="contactForm" onsubmit="submitContactForm(event)">
+<input type="text" id="name" name="name" placeholder="Your Name" required>
+<input type="email" id="email" name="email" placeholder="Your Email" required>
+<textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+<button type="submit">Submit</button>
+</form>
+ 
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB48KWBmkbHlCpZ47Br3J8TY6A1YkjZHMU",
+            authDomain: "agonia-perpetua.firebaseapp.com",
+            databaseURL: "https://agonia-perpetua-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "agonia-perpetua",
+            storageBucket: "agonia-perpetua.firebasestorage.app",
+            messagingSenderId: "704052942955",
+            appId: "1:704052942955:web:d4db601ce10b8ecc8f792e",
+            measurementId: "G-FT1YZY7V0S"
+        };
+ 
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+ 
+        // Function to handle form submission
+        function submitContactForm(event) {
+            event.preventDefault(); // Prevent default form submission
+ 
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+ 
+            // Save to Firebase
+            database.ref('contacts').push({
+                name: name,
+                email: email,
+                message: message
+            }).then(() => {
+                alert('Thank you for your submission!');
+                document.getElementById('contactForm').reset(); // Clear the form
+            }).catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+</script>
+</body>
+</html>
